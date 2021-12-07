@@ -139,7 +139,7 @@ pub mod raw {
         use nom::{
             alt, char, complete, delimited, do_parse, escaped, is_a, is_not, map_res, named,
             none_of, one_of, opt, recognize, separated_list, tag, take_until1, take_while,
-            terminated, tuple, AsChar, InputTakeAtPosition,
+            terminated, tuple, AsChar, InputTakeAtPosition, many0
         };
 
         pub fn symbol1<'a, E: nom::error::ParseError<&'a [u8]>>(
@@ -478,7 +478,7 @@ pub mod raw {
         named!(
                 pub parser<&[u8], Syscall>,
                 do_parse!(pid: opt!(parse_pid)  >>
-                    opt!(complete!(tag!(" "))) >>
+                    many0!(complete!(tag!(" "))) >>
                     start: parse_start >>
                     call: parse_call >>
                     duration: parse_duration >>
